@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendario de tareas — Casa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF6EE; --paper-line:#E4DCC8;
+    --ink:#2B2620; --ink-soft:#6B6355;
+    --pine:#2F5D50; --pine-deep:#1F3F37; --white:#FFFFFF;
+    --h1-c:#2C4160; --h1-bg:#DFE6EE;
+    --h2-c:#7A5A16; --h2-bg:#F3E6C8;
+    --h3-c:#8C3A26; --h3-bg:#F4DED6;
+    --mama-c:#5B3A6B; --mama-bg:#EFE6F3;
+    --rot-c:#1F3F37; --rot-bg:#DCEAE3;
+    --zone-c:#3D5A80; --zone-bg:#E4ECF3;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:40px 20px 80px;
+    background:var(--paper); color:var(--ink);
+    font-family:'Inter', sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto;}
+  header{margin-bottom:26px;}
+  .eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--pine); font-weight:700; margin-bottom:10px;}
+  h1{font-family:'Fraunces', serif; font-weight:700; font-size:clamp(26px,4vw,38px); line-height:1.08; margin:0 0 10px; color:var(--pine-deep);}
+  h3{font-family:'Fraunces', serif; font-size:16px; font-weight:600; margin:0 0 4px; color:var(--pine-deep);}
+  header p{max-width:680px; color:var(--ink-soft); font-size:14px; line-height:1.55; margin:0;}
+
+  section.card{
+    background:var(--white); border-radius:14px; padding:18px 20px 20px;
+    margin-bottom:18px;
+    box-shadow:0 1px 0 rgba(43,38,32,.04), 0 10px 24px -18px rgba(31,63,55,.35);
+  }
+  section.card .desc{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px; line-height:1.5;}
+
+  table.fixed-table{width:100%; border-collapse:collapse; font-size:13px;}
+  table.fixed-table th{
+    text-align:center; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-soft); font-weight:700; padding:6px 4px; border-bottom:1.5px solid var(--paper-line);
+  }
+  table.fixed-table td{
+    text-align:center; padding:9px 4px; border-bottom:1px solid var(--paper-line); font-weight:600;
+  }
+  table.fixed-table td span{
+    display:inline-block; padding:4px 9px; border-radius:99px; background:var(--paper); font-size:12.5px;
+  }
+  table.fixed-table tbody tr:last-child td{border-bottom:none;}
+  .block-label{text-align:left !important; color:var(--ink-soft); font-weight:600; font-size:12px;}
+  .cat-note{font-size:12px; color:var(--ink-soft); margin-top:10px; font-style:italic;}
+
+  .period-nav{
+    display:flex; align-items:center; gap:14px;
+    background:var(--white); border-radius:14px; padding:14px 18px;
+    margin:28px 0 18px;
+    box-shadow:0 1px 0 rgba(43,38,32,.04), 0 10px 24px -18px rgba(31,63,55,.35);
+  }
+  .period-nav button{
+    width:34px; height:34px; border-radius:9px; border:1px solid var(--paper-line);
+    background:var(--paper); color:var(--pine-deep); font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .period-nav button:hover{background:#F0EBDD;}
+  .period-info{flex:1;}
+  .period-info .plabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; font-weight:700; color:var(--pine);}
+  .period-info .prange{font-family:'Fraunces', serif; font-size:17px; font-weight:600; color:var(--ink); margin-top:2px;}
+
+  .tabs{display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;}
+  .tab{
+    padding:10px 18px; border-radius:99px; border:1.5px solid var(--paper-line);
+    background:var(--white); color:var(--ink-soft); font-weight:600; font-size:14px;
+    cursor:pointer; transition:all .12s ease;
+  }
+  .tab .role-hint{display:block; font-size:10.5px; font-weight:600; opacity:.75; margin-top:1px;}
+  .tab.active{color:var(--white); border-color:transparent;}
+  .tab[data-p="santi"].active{background:var(--h1-c);}
+  .tab[data-p="fabri"].active{background:var(--h2-c);}
+  .tab[data-p="isa"].active{background:var(--h3-c);}
+  .tab[data-p="mama"].active{background:var(--mama-c);}
+
+  .zones{font-size:12.5px; color:var(--ink-soft); margin:-10px 0 22px;}
+
+  .week-label{
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; color:var(--ink-soft); margin:18px 0 8px;
+  }
+  .grid{display:grid; grid-template-columns:repeat(7,1fr); gap:8px;}
+  .day{
+    background:var(--white); border:1px solid var(--paper-line);
+    border-radius:10px; padding:10px 10px 12px; min-height:86px;
+    box-shadow:0 1px 0 rgba(43,38,32,.03);
+  }
+  .day .dname{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft); margin-bottom:8px; display:block;}
+  .chip{
+    display:block; font-size:12px; line-height:1.35; font-weight:500;
+    padding:5px 7px; border-radius:7px; margin-bottom:5px;
+    background:var(--paper); border:1px solid var(--paper-line); color:var(--ink);
+  }
+  .chip.rot{background:var(--rot-bg); color:var(--rot-c); border-color:transparent; font-weight:600;}
+  .chip.personal{background:#F1F1EC; color:var(--ink-soft); font-style:italic;}
+  .chip.zone{background:var(--zone-bg); color:var(--zone-c); border-color:transparent; font-weight:700;}
+  .day.empty{display:flex; align-items:center; justify-content:center;}
+  .day.empty .dname{margin:0;}
+  .day.empty::after{content:"—"; color:#CFC8B8; font-size:13px;}
+
+  .breakdown{margin-top:26px;}
+  .breakdown h2{font-family:'Fraunces', serif; font-size:18px; font-weight:600; color:var(--pine-deep); margin:0 0 4px;}
+  .breakdown > p{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px;}
+  .zone-block{
+    background:var(--white); border:1px solid var(--paper-line); border-radius:12px;
+    padding:14px 18px; margin-bottom:10px;
+  }
+  .zone-block .zname{
+    display:inline-block; font-weight:700; font-size:13.5px; color:var(--zone-c);
+    background:var(--zone-bg); padding:3px 11px; border-radius:99px; margin-bottom:9px;
+  }
+  .zone-block ul{margin:0; padding-left:18px;}
+  .zone-block li{font-size:13.5px; line-height:1.6; color:var(--ink);}
+  .zone-block li .detail{display:block; font-size:12px; color:var(--ink-soft); margin-top:1px;}
+  .zone-block li .freq{color:var(--ink-soft); font-size:12px; font-style:italic;}
+
+  footer{margin-top:30px; font-size:12.5px; color:var(--ink-soft); line-height:1.6; max-width:760px;}
+  footer strong{color:var(--ink);}
+
+  .state-msg{
+    background:var(--white); border:1px solid var(--paper-line); border-radius:12px;
+    padding:22px; font-size:13.5px; color:var(--ink-soft); line-height:1.6;
+  }
+  .state-msg code{background:var(--paper); padding:1px 6px; border-radius:5px;}
+
+  @media (max-width: 900px){
+    .grid{grid-template-columns:repeat(7,minmax(110px,1fr)); overflow-x:auto;}
+    table.fixed-table{font-size:11.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Casa · Calendario quincenal</div>
+    <h1>Calendario de tareas por persona</h1>
+    <p>Esta página lee <code>tareas_data.json</code> desde la misma carpeta. Las dos rutinas de arriba son fijas todas las semanas (no rotan). Más abajo, el calendario de zonas sí rota cada período entre Santi, Fabri e Isa.</p>
+  </header>
+
+  <div id="fixedSection"></div>
+
+  <div id="app">
+    <div class="state-msg" id="loadingMsg">Cargando <code>tareas_data.json</code>…</div>
+  </div>
+
+</div>
+
+<script>
+(async function(){
+  const fixedEl = document.getElementById('fixedSection');
+  const appEl = document.getElementById('app');
+
+  let DATA;
+  try{
+    const res = await fetch('./tareas_data.json?v=' + Date.now(), { cache: 'no-store' });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    DATA = await res.json();
+  }catch(err){
+    appEl.innerHTML = `<div class="state-msg">
+      No se pudo cargar <code>tareas_data.json</code> (${err.message}).<br><br>
+      Esto pasa si abres el archivo con doble clic en Chrome o Edge: los navegadores bloquean la lectura
+      de archivos locales por seguridad (protocolo <code>file://</code>). Con GitHub Pages (o un servidor
+      local como <code>python -m http.server</code>) va a cargar sin problema.
+    </div>`;
+    return;
+  }
+
+  // ---------- SECCIÓN FIJA (no rota por período) ----------
+  const DIAS_FULL = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+  const fw = DATA.fixedWeekly;
+
+  function renderFixedTables(){
+    const cocina = fw.cocinaPostCena;
+    const perro = fw.perro;
+
+    let cocinaRows = `<tr>${cocina.days.map(d=>`<td><span>${d}</span></td>`).join('')}</tr>`;
+    let cocinaHead = `<tr>${DIAS_FULL.map(d=>`<th>${d.slice(0,3)}</th>`).join('')}</tr>`;
+
+    let perroHead = `<tr><th></th>${DIAS_FULL.map(d=>`<th>${d.slice(0,3)}</th>`).join('')}</tr>`;
+    let perroRows = perro.blocks.map((block, bi) => {
+      const cells = perro.days.map(dayArr => `<td><span>${dayArr[bi]}</span></td>`).join('');
+      return `<tr><td class="block-label">${block}</td>${cells}</tr>`;
+    }).join('');
+
+    const descFormatted = cocina.desc.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    fixedEl.innerHTML = `
+      <section class="card">
+        <h3>${cocina.title}</h3>
+        <p class="desc">${descFormatted}</p>
+        <table class="fixed-table">
+          <thead>${cocinaHead}</thead>
+          <tbody>${cocinaRows}</tbody>
+        </table>
+      </section>
+      <section class="card">
+        <h3>${perro.title}</h3>
+        <table class="fixed-table">
+          <thead>${perroHead}</thead>
+          <tbody>${perroRows}</tbody>
+        </table>
+        <p class="cat-note">${perro.note}</p>
+      </section>
+    `;
+  }
+  renderFixedTables();
+
+  // ---------- CALENDARIO ROTATIVO ----------
+  appEl.innerHTML = `
+    <div class="period-nav">
+      <button id="prevBtn" aria-label="Período anterior">‹</button>
+      <div class="period-info">
+        <div class="plabel">Período <span id="periodNum">1</span></div>
+        <div class="prange" id="periodRange">—</div>
+      </div>
+      <button id="nextBtn" aria-label="Período siguiente">›</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab" data-p="santi">Santi <span class="role-hint" id="hint-santi"></span></button>
+      <button class="tab" data-p="fabri">Fabri <span class="role-hint" id="hint-fabri"></span></button>
+      <button class="tab" data-p="isa">Isa <span class="role-hint" id="hint-isa"></span></button>
+      <button class="tab" data-p="mama">Mamá <span class="role-hint" id="hint-mama"></span></button>
+    </div>
+
+    <div class="zones" id="zonesLine"></div>
+
+    <div class="week-label" id="w1label">Semana 1</div>
+    <div class="grid" id="week1"></div>
+
+    <div class="week-label" id="w2label">Semana 2</div>
+    <div class="grid" id="week2"></div>
+
+    <div class="breakdown" id="breakdown"></div>
+
+    <footer>
+      <strong>No incluidas aquí:</strong> las tareas diarias (comida y paseo del perro, gatos, cocina post-cena)
+      están en las tablas fijas de arriba. Tampoco están las tareas "según necesidad" ni los arreglos puntuales
+      (azulejos, escalera y luces de la entrada).
+    </footer>
+  `;
+
+  const DIAS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+  function parseISO(s){
+    const [y,m,d] = s.split('-').map(Number);
+    return new Date(y, m-1, d);
+  }
+  function addDays(date, n){
+    const d = new Date(date);
+    d.setDate(d.getDate()+n);
+    return d;
+  }
+  function fmtShort(d){
+    return `${d.getDate()} ${MESES[d.getMonth()]}`;
+  }
+
+  const START = parseISO(DATA.startDate);
+  let currentPeriod = 1;
+
+  // Calcula automáticamente el período actual dinámicamente según la fecha de hoy
+  (function setDefaultPeriod(){
+    const today = new Date(); 
+    today.setHours(0,0,0,0);
+    const diffDays = Math.floor((today - START) / 86400000);
+    if(diffDays >= 0){
+      currentPeriod = Math.floor(diffDays / 14) + 1;
+    } else {
+      currentPeriod = 1;
+    }
+  })();
+
+  let activeTab = 'santi';
+
+  function periodStart(p){ return addDays(START, (p-1)*14); }
+  function cycleFor(p){
+    const idx = (p-1) % DATA.rotation.cycle.length;
+    return DATA.rotation.cycle[idx];
+  }
+  function roleFor(p, person){
+    if(person === 'mama') return 'mama';
+    return cycleFor(p)[person];
+  }
+  const ROLE_LABEL = {hijo1:'Hijo 1', hijo2:'Hijo 2', hijo3:'Hijo 3', mama:'Mamá'};
+
+  function renderDayChips(container, items){
+    const seenZones = new Set();
+    items.forEach(it=>{
+      if(it.zone){
+        if(seenZones.has(it.zone)) return;
+        seenZones.add(it.zone);
+        const span = document.createElement('span');
+        span.className = 'chip zone';
+        span.textContent = it.zone;
+        container.appendChild(span);
+      } else {
+        const cls = it.c ? ` ${it.c}` : '';
+        const span = document.createElement('span');
+        span.className = 'chip' + cls;
+        span.textContent = it.t;
+        container.appendChild(span);
+      }
+    });
+  }
+
+  function renderWeek(container, weekData, weekStart){
+    container.innerHTML = '';
+    for(let i=0;i<7;i++){
+      const dayDiv = document.createElement('div');
+      const items = weekData[i] || [];
+      dayDiv.className = 'day' + (items.length ? '' : ' empty');
+      const name = document.createElement('span');
+      name.className = 'dname';
+      const d = addDays(weekStart, i);
+      name.textContent = `${DIAS[i]} ${fmtShort(d)}`;
+      dayDiv.appendChild(name);
+      renderDayChips(dayDiv, items);
+      container.appendChild(dayDiv);
+    }
+  }
+
+  function renderBreakdown(role){
+    const el = document.getElementById('breakdown');
+
+    const weeks = DATA.tasks[role];
+    const zoneMap = {};
+
+    ['week1','week2'].forEach((wk, wIdx)=>{
+      weeks[wk].forEach(dayItems=>{
+        dayItems.forEach(it=>{
+          if(!it.zone) return;
+          if(!zoneMap[it.zone]) zoneMap[it.zone] = {};
+          if(!zoneMap[it.zone][it.t]) zoneMap[it.zone][it.t] = {w1:false, w2:false};
+          zoneMap[it.zone][it.t][wIdx===0?'w1':'w2'] = true;
+        });
+      });
+    });
+
+    const zoneNames = Object.keys(zoneMap);
+    if(zoneNames.length === 0){ el.innerHTML = ''; return; }
+
+    let html = `<h2>Desglose por zona</h2><p>Qué incluye cada zona que toca realizar este período.</p>`;
+    zoneNames.forEach(zname=>{
+      const tasks = zoneMap[zname];
+      const items = Object.entries(tasks).map(([text, w])=>{
+        const freq = (w.w1 && w.w2) ? '' : '<span class="freq"> — cada 2 semanas</span>';
+        const detailText = (DATA.breakdownDetails && DATA.breakdownDetails[zname] && DATA.breakdownDetails[zname][text])
+          ? `<span class="detail">${DATA.breakdownDetails[zname][text]}</span>`
+          : '';
+        return `<li><strong>${text}</strong>${freq}${detailText}</li>`;
+      }).join('');
+      html += `<div class="zone-block"><span class="zname">${zname}</span><ul>${items}</ul></div>`;
+    });
+    el.innerHTML = html;
+  }
+
+  function render(){
+    const p = currentPeriod;
+    const w1start = periodStart(p);
+    const w2start = addDays(w1start, 7);
+    const w1end = addDays(w1start, 6);
+    const w2end = addDays(w2start, 6);
+
+    document.getElementById('periodNum').textContent = p;
+    document.getElementById('periodRange').textContent =
+      `Semana del ${fmtShort(w1start)} y semana del ${fmtShort(w2start)}, ${w2end.getFullYear()}`;
+    document.getElementById('w1label').textContent = `Semana 1 · ${fmtShort(w1start)}–${fmtShort(w1end)}`;
+    document.getElementById('w2label').textContent = `Semana 2 · ${fmtShort(w2start)}–${fmtShort(w2end)}`;
+
+    ['santi','fabri','isa','mama'].forEach(person=>{
+      const role = roleFor(p, person);
+      document.getElementById('hint-'+person).textContent = ROLE_LABEL[role];
+    });
+
+    document.querySelectorAll('.tab').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.p === activeTab);
+    });
+
+    const role = roleFor(p, activeTab);
+    document.getElementById('zonesLine').textContent = DATA.zones[role] || '';
+    renderWeek(document.getElementById('week1'), DATA.tasks[role].week1, w1start);
+    renderWeek(document.getElementById('week2'), DATA.tasks[role].week2, w2start);
+    renderBreakdown(role);
+  }
+
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ activeTab = btn.dataset.p; render(); });
+  });
+  document.getElementById('prevBtn').addEventListener('click', ()=>{
+    if(currentPeriod>1){ currentPeriod--; render(); }
+  });
+  document.getElementById('nextBtn').addEventListener('click', ()=>{
+    currentPeriod++; render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

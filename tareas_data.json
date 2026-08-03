@@ -1,0 +1,247 @@
+{
+  "startDate": "2026-08-03",
+  "rotation": {
+    "note": "cada período dura 2 semanas. El rol de cada persona rota cada período, con un ciclo que se repite cada 3 períodos (6 semanas). Mamá no rota. Las tareas de turno (baño compartido de los hijos) se mantienen en sus días originales.",
+    "cycle": [
+      { "santi": "hijo1", "fabri": "hijo2", "isa": "hijo3" },
+      { "santi": "hijo3", "fabri": "hijo1", "isa": "hijo2" },
+      { "santi": "hijo2", "fabri": "hijo3", "isa": "hijo1" }
+    ]
+  },
+  "zones": {
+    "hijo1": "Cocina · Lavadero — todo junto el jueves",
+    "hijo2": "Comedor · Quincho · Living — todo junto el sábado",
+    "hijo3": "Estar (miércoles y viernes) · Pieza de servicio · Baño de visita (viernes)",
+    "mama": "Baño (2° piso) — martes y viernes · Estar y otros — lunes"
+  },
+  "breakdownDetails": {
+    "Cocina": {
+      "Puertas y cajones": "Adentro y afuera: aspirar + trapo húmedo",
+      "Horno": "Limpieza exterior e interior",
+      "Heladera": "Limpieza (cada 15 días)",
+      "Sector basurero — a fondo": "Limpiar a fondo (y pintar azulejos si corresponde)"
+    },
+    "Lavadero": {
+      "Plumero y trapo (puertas y estantes)": "Pasar plumero y trapo en puertas y estantes",
+      "Plumero y trapo": "Pasar plumero y trapo en puertas y estantes (lavadero)",
+      "Lavadora y secadora — por fuera": "Limpiar por fuera con paño húmedo y Blem",
+      "Lavadora y secadora — por fuera (lavadero)": "Limpiar por fuera con paño húmedo y Blem",
+      "Aspirar completo": "Aspirar completo, incluyendo rincones y debajo del mueble blanco",
+      "Mueble blanco y colgado": "Mueble blanco largo y mueble colgado: aspirar y limpiar arriba (cada 15 días)",
+      "Mantener mesada liberada y limpia": "Mesada despejada y limpia (= comedero de gatos)"
+    },
+    "Comedor": {
+      "Sillas y mesas — patas": "Limpiar patas con trapo húmedo, antigrasa y desinfectante + Blem",
+      "Sillas — cepillo + Lysoform": "Limpieza de sillas con cepillo + Lysoform",
+      "Vidrios": "Limpieza de vidrios (cada 15 días)"
+    },
+    "Quincho": {
+      "Mesas y sillas — patas": "Patas con plumero o trapo húmedo + Blem",
+      "Sillones": "Limpieza de sillones",
+      "Plumero a lámparas": "Pasar plumero a las lámparas",
+      "Horno": "Limpieza del horno"
+    },
+    "Living": {
+      "Sillón": "Pasar trapo húmedo + Blem",
+      "Sillón (living)": "Pasar trapo húmedo + Blem",
+      "Vidrios": "Limpieza de vidrios (cada 15 días)",
+      "Fundas, cojines y manta": "Lavar fundas de cojines y mantita (cada 15 días)"
+    },
+    "Estar": {
+      "Aspirar": "Aspirar área de estar",
+      "Aspirar estar": "Aspirar área de estar",
+      "Trapear": "Trapear piso",
+      "Trapear estar": "Trapear piso",
+      "Muebles": "Pasar trapo/plumero a muebles",
+      "Muebles estar": "Pasar trapo/plumero a muebles"
+    },
+    "Pieza de servicio": {
+      "Aseo normal y rincones": "Aseo normal y rincones (máquina y escritorio): aspirar + plumero + trapo húmedo + Raid",
+      "Aseo baño": "Liberar ducha y realizar aseo profundo de rincón, mesita y espejo"
+    },
+    "Baño de visita": {
+      "Aseo baño": "Aseo profundo de rincón, mesita y espejo"
+    },
+    "Baño 2° piso": {
+      "Baño — aseo profundo": "Aseo profundo del baño"
+    }
+  },
+  "fixedWeekly": {
+    "note": "Estas rutinas son fijas todas las semanas, no rotan por período — usan los nombres reales, no los roles Hijo 1/2/3.",
+    "cocinaPostCena": {
+      "title": "Cocina impecable después de la cena",
+      "desc": "Lavar y secar platos de uso general (platos para servir la comida, lo que se ensució para cocinar) — **se mantiene que cada uno lava lo que ensucia**. Guardar la comida para que quede la cocina despejada para el día siguiente, dejar la mesa levantada y sacar la basura.",
+      "days": ["Santi", "Fabri", "Santi", "Fabri", "Mamá", "Isa", "Mamá e Isa"]
+    },
+    "perro": {
+      "title": "Comida + paseo del perro",
+      "note": "Gatos (comida y arenero): siempre Isa, todos los días — no rota.",
+      "blocks": ["Mañana", "Mediodía", "Noche"],
+      "days": [
+        ["Santi", "Mamá", "Santi"],
+        ["Fabri", "Isa", "Mamá"],
+        ["Mamá", "Fabri", "Santi"],
+        ["Isa", "Mamá", "Fabri"],
+        ["Fabri", "Santi", "Mamá"],
+        ["Mamá", "Fabri", "Isa"],
+        ["Mamá", "Isa", "Santi"]
+      ]
+    }
+  },
+  "tasks": {
+    "hijo1": {
+      "week1": [
+        [{"t":"Cambiar sábanas","c":"personal"},{"t":"Limpiar su pieza","c":"personal"},{"t":"Lavar su ropa","c":"personal"}],
+        [{"t":"Baño hijos — aseo profundo (turno)","c":"rot"}],
+        [],
+        [
+          {"t":"Puertas y cajones","zone":"Cocina"},
+          {"t":"Horno","zone":"Cocina"},
+          {"t":"Heladera","zone":"Cocina"},
+          {"t":"Sector basurero — a fondo","zone":"Cocina"},
+          {"t":"Plumero y trapo (puertas y estantes)","zone":"Lavadero"},
+          {"t":"Lavadora y secadora — por fuera","zone":"Lavadero"},
+          {"t":"Aspirar completo","zone":"Lavadero"},
+          {"t":"Mueble blanco y colgado","zone":"Lavadero"},
+          {"t":"Mantener mesada liberada y limpia","zone":"Lavadero"}
+        ],
+        [],
+        [],
+        []
+      ],
+      "week2": [
+        [{"t":"Cambiar sábanas","c":"personal"},{"t":"Limpiar su pieza","c":"personal"},{"t":"Lavar su ropa","c":"personal"}],
+        [],
+        [],
+        [
+          {"t":"Puertas y cajones","zone":"Cocina"},
+          {"t":"Horno","zone":"Cocina"},
+          {"t":"Heladera","zone":"Cocina"},
+          {"t":"Plumero y trapo (puertas y estantes)","zone":"Lavadero"},
+          {"t":"Lavadora y secadora — por fuera","zone":"Lavadero"},
+          {"t":"Aspirar completo","zone":"Lavadero"},
+          {"t":"Mueble blanco y colgado","zone":"Lavadero"},
+          {"t":"Mantener mesada liberada y limpia","zone":"Lavadero"}
+        ],
+        [{"t":"Baño hijos — aseo profundo (turno)","c":"rot"}],
+        [],
+        []
+      ]
+    },
+    "hijo2": {
+      "week1": [
+        [{"t":"Cambiar sábanas","c":"personal"},{"t":"Limpiar su pieza","c":"personal"},{"t":"Lavar su ropa","c":"personal"}],
+        [],
+        [],
+        [],
+        [{"t":"Baño hijos — aseo profundo (turno)","c":"rot"}],
+        [
+          {"t":"Sillas y mesas — patas","zone":"Comedor"},
+          {"t":"Sillas — cepillo + Lysoform","zone":"Comedor"},
+          {"t":"Vidrios","zone":"Comedor"},
+          {"t":"Mesas y sillas — patas","zone":"Quincho"},
+          {"t":"Sillones","zone":"Quincho"},
+          {"t":"Plumero a lámparas","zone":"Quincho"},
+          {"t":"Horno","zone":"Quincho"}
+        ],
+        []
+      ],
+      "week2": [
+        [{"t":"Cambiar sábanas","c":"personal"},{"t":"Limpiar su pieza","c":"personal"},{"t":"Lavar su ropa","c":"personal"}],
+        [],
+        [],
+        [],
+        [],
+        [
+          {"t":"Sillas y mesas — patas","zone":"Comedor"},
+          {"t":"Sillas — cepillo + Lysoform","zone":"Comedor"},
+          {"t":"Mesas y sillas — patas","zone":"Quincho"},
+          {"t":"Sillones","zone":"Quincho"},
+          {"t":"Plumero a lámparas","zone":"Quincho"},
+          {"t":"Horno","zone":"Quincho"},
+          {"t":"Vidrios","zone":"Living"},
+          {"t":"Fundas, cojines y manta","zone":"Living"}
+        ],
+        []
+      ]
+    },
+    "hijo3": {
+      "week1": [
+        [{"t":"Cambiar sábanas","c":"personal"},{"t":"Limpiar su pieza","c":"personal"},{"t":"Lavar su ropa","c":"personal"}],
+        [],
+        [
+          {"t":"Aspirar","zone":"Estar"},
+          {"t":"Trapear","zone":"Estar"},
+          {"t":"Muebles","zone":"Estar"}
+        ],
+        [],
+        [
+          {"t":"Aspirar","zone":"Estar"},
+          {"t":"Trapear","zone":"Estar"},
+          {"t":"Muebles","zone":"Estar"},
+          {"t":"Aseo normal y rincones","zone":"Pieza de servicio"},
+          {"t":"Aseo baño","zone":"Pieza de servicio"},
+          {"t":"Aseo baño","zone":"Baño de visita"}
+        ],
+        [],
+        []
+      ],
+      "week2": [
+        [{"t":"Cambiar sábanas","c":"personal"},{"t":"Limpiar su pieza","c":"personal"},{"t":"Lavar su ropa","c":"personal"}],
+        [{"t":"Baño hijos — aseo profundo (turno)","c":"rot"}],
+        [
+          {"t":"Aspirar","zone":"Estar"},
+          {"t":"Trapear","zone":"Estar"},
+          {"t":"Muebles","zone":"Estar"}
+        ],
+        [],
+        [
+          {"t":"Aspirar","zone":"Estar"},
+          {"t":"Trapear","zone":"Estar"},
+          {"t":"Muebles","zone":"Estar"},
+          {"t":"Aseo normal y rincones","zone":"Pieza de servicio"},
+          {"t":"Aseo baño","zone":"Pieza de servicio"},
+          {"t":"Aseo baño","zone":"Baño de visita"}
+        ],
+        [],
+        []
+      ]
+    },
+    "mama": {
+      "week1": [
+        [
+          {"t":"Cambiar sábanas"},
+          {"t":"Aspirar estar","zone":"Estar"},
+          {"t":"Trapear estar","zone":"Estar"},
+          {"t":"Muebles estar","zone":"Estar"},
+          {"t":"Sillón (living)","zone":"Living"},
+          {"t":"Plumero y trapo (lavadero)","zone":"Lavadero"},
+          {"t":"Lavadora y secadora — por fuera (lavadero)","zone":"Lavadero"}
+        ],
+        [{"t":"Baño — aseo profundo","zone":"Baño 2° piso"}],
+        [],
+        [],
+        [{"t":"Baño — aseo profundo","zone":"Baño 2° piso"}],
+        [],
+        []
+      ],
+      "week2": [
+        [
+          {"t":"Cambiar sábanas"},
+          {"t":"Aspirar estar","zone":"Estar"},
+          {"t":"Trapear estar","zone":"Estar"},
+          {"t":"Muebles estar","zone":"Estar"},
+          {"t":"Sillón (living)","zone":"Living"},
+          {"t":"Plumero y trapo (lavadero)","zone":"Lavadero"},
+          {"t":"Lavadora y secadora — por fuera (lavadero)","zone":"Lavadero"}
+        ],
+        [{"t":"Baño — aseo profundo","zone":"Baño 2° piso"}],
+        [],
+        [],
+        [{"t":"Baño — aseo profundo","zone":"Baño 2° piso"}],
+        [],
+        []
+      ]
+    }
+  }
+}
