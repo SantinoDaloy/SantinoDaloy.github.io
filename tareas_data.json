@@ -81,9 +81,9 @@
         ["Santi", "Mamá", "Santi"],
         ["Fabri", "Isa", "Mamá"],
         ["Mamá", "Fabri", "Santi"],
-        ["Isa", "Mamá", "Fabri"],
-        ["Fabri", "Santi", "Mamá"],
-        ["Mamá", "Fabri", "Isa"],
+        ["Mamá", "Isa", "Fabri"],
+        ["Santi", "Mamá", "Fabri"],
+        ["Mamá", "Isa", "Fabri"],
         ["Mamá", "Isa", "Santi"]
       ]
     }
