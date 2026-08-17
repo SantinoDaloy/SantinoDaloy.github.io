@@ -78,11 +78,11 @@
       "note": "Gatos (comida y arenero): siempre Isa, todos los días — no rota.",
       "blocks": ["Mañana", "Mediodía", "Noche"],
       "days": [
-        ["Santi", "Mamá", "Santi"],
-        ["Fabri", "Isa", "Mamá"],
+        ["Mamá", "Santi", "Santi"],
+        ["Mamá", "Isa", "Fabri"],
         ["Mamá", "Fabri", "Santi"],
         ["Mamá", "Isa", "Fabri"],
-        ["Santi", "Mamá", "Fabri"],
+        ["Mamá", "Santi", "Fabri"],
         ["Mamá", "Isa", "Fabri"],
         ["Mamá", "Isa", "Santi"]
       ]
